@@ -1,0 +1,207 @@
+ ~/github/modern-cpp-tutorial/code/5  master !2  gdb 5.2.unique.ptr.out 
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.1) 9.2
+Reading symbols from 5.2.unique.ptr.out...
+(gdb) b Foo::~Foo()
+Breakpoint 1 at 0x401a0c: file 5.2.unique.ptr.cpp, line 15.
+(gdb) c
+The program is not being run.
+(gdb) r
+Starting program: /root/github/modern-cpp-tutorial/code/5/5.2.unique.ptr.out
+Foo::Foo
+Foo::foo
+f(const Foo&)
+Foo::foo
+p2 was destroyed
+Foo::foo
+
+Breakpoint 1, Foo::~Foo (this=0x416eb0) at 5.2.unique.ptr.cpp:15
+15          ~Foo()     { std::cout << "Foo::~Foo" << std::endl; }
+(gdb) bt
+#0  Foo::~Foo (this=0x416eb0) at 5.2.unique.ptr.cpp:15
+#1  0x000000000040194b in std::default_delete<Foo>::operator() (this=0x7fffffffdfd0, __ptr=0x416eb0) at /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:81
+#2  0x000000000040169d in std::unique_ptr<Foo, std::default_delete<Foo> >::~unique_ptr (this=0x7fffffffdfd0) at /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/unique_ptr.h:292
+#3  0x0000000000401430 in main () at 5.2.unique.ptr.cpp:52
+(gdb) disass
+Dump of assembler code for function Foo::~Foo():
+   0x0000000000401a00 <+0>:     push   %rbp
+   0x0000000000401a01 <+1>:     mov    %rsp,%rbp
+   0x0000000000401a04 <+4>:     sub    $0x20,%rsp
+   0x0000000000401a08 <+8>:     mov    %rdi,-0x8(%rbp)
+=> 0x0000000000401a0c <+12>:    mov    $0x4040c0,%edi
+   0x0000000000401a11 <+17>:    mov    $0x402035,%esi
+   0x0000000000401a16 <+22>:    callq  0x401080 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt>
+   0x0000000000401a1b <+27>:    mov    %rax,-0x10(%rbp)
+   0x0000000000401a1f <+31>:    jmpq   0x401a24 <Foo::~Foo()+36>
+   0x0000000000401a24 <+36>:    mov    $0x401050,%esi
+   0x0000000000401a29 <+41>:    mov    -0x10(%rbp),%rdi
+   0x0000000000401a2d <+45>:    callq  0x4010a0 <_ZNSolsEPFRSoS_E@plt>
+   0x0000000000401a32 <+50>:    jmpq   0x401a37 <Foo::~Foo()+55>
+   0x0000000000401a37 <+55>:    add    $0x20,%rsp
+   0x0000000000401a3b <+59>:    pop    %rbp
+   0x0000000000401a3c <+60>:    retq
+   0x0000000000401a3d <+61>:    mov    %rax,%rdi
+   0x0000000000401a40 <+64>:    mov    %edx,-0x14(%rbp)
+   0x0000000000401a43 <+67>:    callq  0x401790 <__clang_call_terminate>
+End of assembler dump.
+(gdb) f 3
+#3  0x0000000000401430 in main () at 5.2.unique.ptr.cpp:52
+52      }
+(gdb)
+(gdb) disass /m
+Dump of assembler code for function main():
+23      int main() {
+   0x0000000000401270 <+0>:     push   %rbp
+   0x0000000000401271 <+1>:     mov    %rsp,%rbp
+   0x0000000000401274 <+4>:     sub    $0x50,%rsp
+   0x0000000000401278 <+8>:     movl   $0x0,-0x4(%rbp)
+
+24          std::unique_ptr<Foo> p1(std::make_unique<Foo>());
+   0x000000000040127f <+15>:    lea    -0x10(%rbp),%rdi
+   0x0000000000401283 <+19>:    callq  0x401450 <std::make_unique<Foo>()>
+
+25
+26          // p1 is not empty, prints
+27          if (p1) p1->foo();
+   0x0000000000401288 <+24>:    lea    -0x10(%rbp),%rdi
+   0x000000000040128c <+28>:    callq  0x4014c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator bool() const>
+   0x0000000000401291 <+33>:    test   $0x1,%al
+   0x0000000000401293 <+35>:    jne    0x40129e <main()+46>
+   0x0000000000401299 <+41>:    jmpq   0x4012c5 <main()+85>
+   0x000000000040129e <+46>:    lea    -0x10(%rbp),%rdi
+   0x00000000004012a2 <+50>:    callq  0x4014f0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator->() const>
+   0x00000000004012a7 <+55>:    mov    %rax,%rdi
+   0x00000000004012aa <+58>:    callq  0x401510 <Foo::foo()>
+   0x00000000004012af <+63>:    jmpq   0x4012b4 <main()+68>
+   0x00000000004012b4 <+68>:    jmpq   0x4012c5 <main()+85>
+
+28          {
+29              // std::move  p2 = p1, p1 = null
+30              std::unique_ptr<Foo> p2(std::move(p1));
+   0x00000000004012c9 <+89>:    callq  0x401550 <std::move<std::unique_ptr<Foo, std::default_delete<Foo> >&>(std::unique_ptr<Foo, std::default_delete<Foo> >&)>
+   0x00000000004012ce <+94>:    lea    -0x28(%rbp),%rcx
+   0x00000000004012d2 <+98>:    mov    %rcx,%rdi
+   0x00000000004012d5 <+101>:   mov    %rax,%rsi
+   0x00000000004012d8 <+104>:   mov    %rcx,-0x30(%rbp)
+   0x00000000004012dc <+108>:   callq  0x401560 <std::unique_ptr<Foo, std::default_delete<Foo> >::unique_ptr(std::unique_ptr<Foo, std::default_delete<Foo> >&&)>
+   0x00000000004012e1 <+113>:   mov    -0x30(%rbp),%rdi
+
+31
+32              // p2 is not empty, prints
+33              f(*p2);
+   0x00000000004012e5 <+117>:   callq  0x4015c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator*() const>
+   0x00000000004012ea <+122>:   mov    %rax,-0x38(%rbp)
+   0x00000000004012ee <+126>:   jmpq   0x4012f3 <main()+131>
+   0x00000000004012f3 <+131>:   mov    -0x38(%rbp),%rdi
+   0x00000000004012f7 <+135>:   callq  0x401230 <f(Foo const&)>
+   0x00000000004012fc <+140>:   jmpq   0x401301 <main()+145>
+
+34
+35              // p2 is not empty, prints
+36              if(p2) p2->foo();
+   0x0000000000401301 <+145>:   lea    -0x28(%rbp),%rdi
+   0x0000000000401305 <+149>:   callq  0x4014c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator bool() const>
+   0x000000000040130a <+154>:   test   $0x1,%al
+   0x000000000040130c <+156>:   jne    0x401317 <main()+167>
+   0x0000000000401312 <+162>:   jmpq   0x401347 <main()+215>
+   0x0000000000401317 <+167>:   lea    -0x28(%rbp),%rdi
+   0x000000000040131b <+171>:   callq  0x4014f0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator->() const>
+   0x0000000000401320 <+176>:   mov    %rax,%rdi
+   0x0000000000401323 <+179>:   callq  0x401510 <Foo::foo()>
+   0x0000000000401328 <+184>:   jmpq   0x40132d <main()+189>
+   0x000000000040132d <+189>:   jmpq   0x401347 <main()+215>
+
+37
+38              // p1 is empty, no prints
+39              if(p1) p1->foo();
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0000000000401347 <+215>:   lea    -0x10(%rbp),%rdi
+   0x000000000040134b <+219>:   callq  0x4014c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator bool() const>
+   0x0000000000401350 <+224>:   test   $0x1,%al
+   0x0000000000401352 <+226>:   jne    0x40135d <main()+237>
+   0x0000000000401358 <+232>:   jmpq   0x401378 <main()+264>
+   0x000000000040135d <+237>:   lea    -0x10(%rbp),%rdi
+   0x0000000000401361 <+241>:   callq  0x4014f0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator->() const>
+   0x0000000000401366 <+246>:   mov    %rax,%rdi
+   0x0000000000401369 <+249>:   callq  0x401510 <Foo::foo()>
+   0x000000000040136e <+254>:   jmpq   0x401373 <main()+259>
+   0x0000000000401373 <+259>:   jmpq   0x401378 <main()+264>
+
+40
+41              // std::move p1 = p2, p2 = null
+42              p1 = std::move(p2);
+   0x0000000000401378 <+264>:   lea    -0x28(%rbp),%rdi
+   0x000000000040137c <+268>:   callq  0x401550 <std::move<std::unique_ptr<Foo, std::default_delete<Foo> >&>(std::unique_ptr<Foo, std::default_delete<Foo> >&)>
+   0x0000000000401381 <+273>:   lea    -0x10(%rbp),%rdi
+   0x0000000000401385 <+277>:   mov    %rax,%rsi
+   0x0000000000401388 <+280>:   callq  0x4015e0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator=(std::unique_ptr<Foo, std::default_delete<Foo> >&&)>
+
+43
+44              // p2 is empty, no prints
+45              if(p2) p2->foo();
+   0x000000000040138d <+285>:   lea    -0x28(%rbp),%rdi
+   0x0000000000401391 <+289>:   mov    %rax,-0x40(%rbp)
+   0x0000000000401395 <+293>:   callq  0x4014c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator bool() const>
+   0x000000000040139a <+298>:   test   $0x1,%al
+   0x000000000040139c <+300>:   jne    0x4013a7 <main()+311>
+   0x00000000004013a2 <+306>:   jmpq   0x4013c2 <main()+338>
+   0x00000000004013a7 <+311>:   lea    -0x28(%rbp),%rdi
+   0x00000000004013ab <+315>:   callq  0x4014f0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator->() const>
+   0x00000000004013b0 <+320>:   mov    %rax,%rdi
+   0x00000000004013b3 <+323>:   callq  0x401510 <Foo::foo()>
+   0x00000000004013b8 <+328>:   jmpq   0x4013bd <main()+333>
+   0x00000000004013bd <+333>:   jmpq   0x4013c2 <main()+338>
+
+46              std::cout << "p2 was destroyed" << std::endl;
+   0x00000000004013c2 <+338>:   mov    $0x4040c0,%edi
+   0x00000000004013c7 <+343>:   mov    $0x402012,%esi
+   0x00000000004013cc <+348>:   callq  0x401080 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt>
+   0x00000000004013d1 <+353>:   mov    %rax,-0x48(%rbp)
+   0x00000000004013d5 <+357>:   jmpq   0x4013da <main()+362>
+   0x00000000004013da <+362>:   mov    $0x401050,%esi
+   0x00000000004013df <+367>:   mov    -0x48(%rbp),%rdi
+   0x00000000004013e3 <+371>:   callq  0x4010a0 <_ZNSolsEPFRSoS_E@plt>
+   0x00000000004013e8 <+376>:   jmpq   0x4013ed <main()+381>
+
+47          }
+   0x0000000000401339 <+201>:   lea    -0x28(%rbp),%rdi
+   0x000000000040133d <+205>:   callq  0x401640 <std::unique_ptr<Foo, std::default_delete<Foo> >::~unique_ptr()>
+   0x0000000000401342 <+210>:   jmpq   0x401439 <main()+457>
+   0x00000000004013ed <+381>:   lea    -0x28(%rbp),%rdi
+   0x00000000004013f1 <+385>:   callq  0x401640 <std::unique_ptr<Foo, std::default_delete<Foo> >::~unique_ptr()>
+
+48          // p1 is not empty, prints
+49          if (p1) p1->foo();
+   0x00000000004013f6 <+390>:   lea    -0x10(%rbp),%rdi
+   0x00000000004013fa <+394>:   callq  0x4014c0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator bool() const>
+   0x00000000004013ff <+399>:   test   $0x1,%al
+   0x0000000000401401 <+401>:   jne    0x40140c <main()+412>
+   0x0000000000401407 <+407>:   jmpq   0x401427 <main()+439>
+   0x000000000040140c <+412>:   lea    -0x10(%rbp),%rdi
+   0x0000000000401410 <+416>:   callq  0x4014f0 <std::unique_ptr<Foo, std::default_delete<Foo> >::operator->() const>
+   0x0000000000401415 <+421>:   mov    %rax,%rdi
+   0x0000000000401418 <+424>:   callq  0x401510 <Foo::foo()>
+   0x000000000040141d <+429>:   jmpq   0x401422 <main()+434>
+   0x0000000000401422 <+434>:   jmpq   0x401427 <main()+439>
+
+50
+51          // Foo instance will be destroyed when leaving the scope
+52      }
+   0x00000000004012b9 <+73>:    mov    %rax,-0x18(%rbp)
+   0x00000000004012bd <+77>:    mov    %edx,-0x1c(%rbp)
+   0x00000000004012c0 <+80>:    jmpq   0x401439 <main()+457>
+   0x00000000004012c5 <+85>:    lea    -0x10(%rbp),%rdi
+   0x0000000000401332 <+194>:   mov    %rax,-0x18(%rbp)
+   0x0000000000401336 <+198>:   mov    %edx,-0x1c(%rbp)
+   0x0000000000401427 <+439>:   lea    -0x10(%rbp),%rdi
+   0x000000000040142b <+443>:   callq  0x401640 <std::unique_ptr<Foo, std::default_delete<Foo> >::~unique_ptr()>
+=> 0x0000000000401430 <+448>:   mov    -0x4(%rbp),%eax
+   0x0000000000401433 <+451>:   add    $0x50,%rsp
+   0x0000000000401437 <+455>:   pop    %rbp
+   0x0000000000401438 <+456>:   retq
+   0x0000000000401439 <+457>:   lea    -0x10(%rbp),%rdi
+   0x000000000040143d <+461>:   callq  0x401640 <std::unique_ptr<Foo, std::default_delete<Foo> >::~unique_ptr()>
+   0x0000000000401442 <+466>:   mov    -0x18(%rbp),%rdi
+   0x0000000000401446 <+470>:   callq  0x4010d0 <_Unwind_Resume@plt>
+
+End of assembler dump.
+(gdb) q
