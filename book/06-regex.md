@@ -232,8 +232,6 @@ void start_server(SERVER_TYPE &server) {
 }
 ```
 
-参考答案[见此](../../exercises/6)。
-
 [返回目录](./toc.md) | [上一章](./05-pointers.md) | [下一章 线程与并发](./07-thread.md)
 
 ## 进一步阅读的参考资料
