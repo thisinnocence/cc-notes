@@ -63,7 +63,7 @@ public:
 int main() {
     Calculator calc;
     auto multiply_by_two = std::bind(&Calculator::multiply, &calc, std::placeholders::_1, 2);
-    std::cout << "multiply_by_two(4) = " << multiply_by_two(1) << std::endl; // 输出 2
+    std::cout << "multiply_by_two(1) = " << multiply_by_two(1) << std::endl; // 输出 2
     return 0;
 }
 ```
