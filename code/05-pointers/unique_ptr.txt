@@ -1,4 +1,4 @@
- ~/github/modern-cpp-tutorial/code/5  master !2  gdb 5.2.unique.ptr.out 
+$ gdb 5.2.unique.ptr.out 
 GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.1) 9.2
 Reading symbols from 5.2.unique.ptr.out...
 (gdb) b Foo::~Foo()
