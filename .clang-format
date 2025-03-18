@@ -12,3 +12,6 @@ AllowShortFunctionsOnASingleLine: None
 
 PointerAlignment: Left
 ReferenceAlignment: Pointer
+
+ColumnLimit: 120
+SpaceInEmptyBlock: false
