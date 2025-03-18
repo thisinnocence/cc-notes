@@ -1,0 +1,14 @@
+BasedOnStyle: LLVM
+Language: Cpp
+
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+ContinuationIndentWidth: 4
+AccessModifierOffset: -4
+
+AllowShortBlocksOnASingleLine: Never        
+AllowShortFunctionsOnASingleLine: None      
+
+PointerAlignment: Left
+ReferenceAlignment: Pointer

@@ -9,7 +9,7 @@ private:
 
 public:
     // 避免隐式转换，必须明确使用构造函数，而不是不同类型的赋值那种隐式转换
-    explicit SharedPtr(T* p = nullptr) : ptr(p), refCount(p ? new int(1) : nullptr) {}
+    explicit SharedPtr(T* p = nullptr) : ptr(p), refCount(p ? new int : nullptr) {}
 
     SharedPtr(const SharedPtr& other) : ptr(other.ptr), refCount(other.refCount) {
         if (refCount) (*refCount)++;
