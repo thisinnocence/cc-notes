@@ -8,9 +8,7 @@ struct Person {
     int age;
 
     // 方法1：重载小于运算符
-    bool operator<(const Person& other) const {
-        return age < other.age;
-    }
+    bool operator<(const Person& other) const { return age < other.age; }
 };
 
 int main() {

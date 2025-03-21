@@ -6,12 +6,7 @@ UseTab: Never
 TabWidth: 4
 ContinuationIndentWidth: 4
 AccessModifierOffset: -4
-
-AllowShortBlocksOnASingleLine: Never        
-AllowShortFunctionsOnASingleLine: None      
+ColumnLimit: 120
 
 PointerAlignment: Left
 ReferenceAlignment: Pointer
-
-ColumnLimit: 120
-SpaceInEmptyBlock: false
