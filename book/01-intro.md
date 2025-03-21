@@ -52,7 +52,7 @@ InstalledDir: /Library/Developer/CommandLineTools/usr/bin
 
 出于一些不可抗力、历史原因，我们不得不在 C++ 中使用一些 C 语言代码（甚至古老的 C 语言代码），例如 Linux 系统调用。在现代 C++ 出现之前，大部分人当谈及『C 与 C++ 的区别是什么』时，普遍除了回答面向对象的类特性、泛型编程的模板特性外，就没有其他的看法了，甚至直接回答『差不多』，也是大有人在。图 1.2 中的韦恩图大致上回答了 C 和 C++ 相关的兼容情况。
 
-![图 1.2: C 和 C++ 互相兼容情况](../../assets/figures/comparison.png)
+![图 1.2: C 和 C++ 互相兼容情况](figures/comparison.png)
 
 从现在开始，你的脑子里应该树立『**C++ 不是 C 的一个超集**』这个观念（而且从一开始就不是，后面的[进一步阅读的参考文献](#进一步阅读的参考文献)中给出了 C++98 和 C99 之间的区别）。在编写 C++ 时，也应该尽可能的避免使用诸如 `void*` 之类的程序风格。而在不得不使用 C 时，应该注意使用 `extern "C"` 这种特性，将 C 语言的代码与 C++代码进行分离编译，再统一链接这种做法，例如：
 
@@ -113,10 +113,10 @@ TARGET = 1.1
 LDFLAGS_COMMON = -std=c++2a
 
 all:
-	$(C) -c $(SOURCE_C)
-	$(CXX) $(SOURCE_CXX) $(OBJECTS_C) $(LDFLAGS_COMMON) -o $(TARGET)
+ $(C) -c $(SOURCE_C)
+ $(CXX) $(SOURCE_CXX) $(OBJECTS_C) $(LDFLAGS_COMMON) -o $(TARGET)
 clean:
-	rm -rf *.o $(TARGET)
+ rm -rf *.o $(TARGET)
 ```
 
 > 注意：`Makefile` 中的缩进是制表符而不是空格符，如果你直接复制这段代码到你的编辑器中，制表符可能会被自动替换掉，请自行确保在 `Makefile` 中的缩进是由制表符完成的。
