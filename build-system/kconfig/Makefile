@@ -19,10 +19,10 @@ endif
 .PHONY: all clean
 
 # Build targets
-all: main
+all: a.out
 
-main: main.c
-	$(CC) $(CFLAGS) main.c -o main.out
+a.out: main.c
+	$(CC) $(CFLAGS) main.c -o $@
 
 clean:
-	rm -f main.out
+	rm -vf *.out
