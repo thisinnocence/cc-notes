@@ -89,7 +89,7 @@ int mprotect(void *addr, size_t len, int prot);
 // 映射标志定义
 #define MAP_SHARED    0x01     /* 共享映射，修改对其他进程可见 */
 #define MAP_PRIVATE   0x02     /* 私有映射，写入时复制(Copy-on-Write)，修改不共享 */
-#define MAP_FIXED     0x10     /* 精确指定映射地址，若地址被占用则映射失败 */
+#define MAP_FIXED     0x10     + 强制使用指定地址，即使会覆盖已有映射（极度危险，需谨慎）*/
 #define MAP_ANONYMOUS 0x20     /* 匿名映射，不依赖文件，fd 必须设为 -1 */
 #define MAP_LOCKED    0x2000   /* 尝试锁定页面，防止换出 (需要 CAP_IPC_LOCK 权限) */
 
@@ -97,12 +97,13 @@ int mprotect(void *addr, size_t len, int prot);
 
 /* 共享内存方案 (需确保文件已创建) */
 fd = open("file", O_RDWR);
+ftruncate(fd, size);  // 保证文件有足够大小供映射
 addr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 if (addr == MAP_FAILED) {
     perror("mmap failed");
 }
 
-/* 私有匿名内存 (适用于进程间通信) */
+/* 私有匿名内存  (适用于线程内或父子进程通信，需借助 fork；多进程共享建议用 shm_open 或 tmpfs 文件) */
 addr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 if (addr == MAP_FAILED) {
     perror("mmap failed");
@@ -116,24 +117,26 @@ if (addr == MAP_FAILED) {
 }
 ```
 
-##  性能优化
+## 性能优化
 
 ### 优化策略
 
 | 策略 | 实现方式 | 效果 |
 |------|----------|------|
 | **内存锁定** | `MAP_LOCKED` / `mlock` | 尝试锁定物理内存，减少换出，提高实时性 |
-| **进程间内存同步** | `msync` / `shm_open` + `shmctl` | 确保多进程间数据一致性 |
+| **进程间内存同步** | `msync` / `shm_open` + `shmctl` | 确保将映射的修改同步回磁盘文件 |
 | **自旋锁优化** | `PAUSE` (x86) / `YIELD` (ARM) | 减少总线争用，降低高负载时功耗 |
 | **页面对齐** | `posix_memalign()` / `mmap` | 降低 TLB 失效，提高大块数据访问效率 |
 
 ### 常见问题与解决方案
 
 #### **1. 内存泄漏**
-- **问题：** 进程结束时未释放 `mmap` 或共享内存，导致泄漏。
-- **解决方案：** 使用 `munmap()` 或 `shmdt()` 及时释放，或注册 `atexit()` 进行清理。
-- **示例：**  
-  ```c
+
+* **问题：** 进程结束时未释放 `mmap` 或共享内存，导致泄漏。
+* **解决方案：** 使用 `munmap()` 或 `shmdt()` 及时释放，或注册 `atexit()` 进行清理。
+* **示例：**  
+
+```c
   void cleanup_mappings() {
       munmap(addr, size);
   }
@@ -141,34 +144,41 @@ if (addr == MAP_FAILED) {
   ```
 
 #### **2. 进程间一致性**
-- **问题：** 多进程共享内存时，可能出现数据不一致。
-- **解决方案：** 
-  - 使用 `msync()` 确保修改的共享内存被同步到物理页。
-  - 使用 `__sync_synchronize()` 或 `std::atomic_thread_fence()` 作为**内存屏障**，确保 CPU 访问顺序。
-- **示例：**  
+
+* **问题：** 多进程共享内存时，可能出现数据不一致。
+* **解决方案：**
+  * 使用 `msync()` 确保修改的共享内存被同步到物理页。
+  * 使用 `__sync_synchronize()` 或 `std::atomic_thread_fence()` 作为**内存屏障**，确保 CPU 访问顺序。
+* **示例：**  
+
   ```c
   msync(addr, size, MS_SYNC);  // 立即同步到文件或共享内存
   __sync_synchronize();        // 内存屏障，确保访问顺序
   ```
 
 #### **3. 并发访问**
-- **问题：** 多线程或多进程访问共享数据时可能发生竞争条件 (Race Condition)。
-- **解决方案：** 
-  - **使用原子操作** (`__atomic_*` 或 `std::atomic<>`)，保证修改的原子性。
-  - **使用互斥锁** (`pthread_mutex_t`) 保护关键区域，避免竞争。
-- **示例：**
+
+* **问题：** 多线程或多进程访问共享数据时可能发生竞争条件 (Race Condition)。
+* **解决方案：**
+  * **使用原子操作** (`__atomic_*` 或 `std::atomic<>`)，保证修改的原子性。
+  * **使用互斥锁** (`pthread_mutex_t`) 保护关键区域，避免竞争。
+* **示例：**
+
   ```c
   __atomic_store_n(&flag, 1, __ATOMIC_SEQ_CST);  // C 原子操作
   ```
+
   ```cpp
   std::atomic<int> flag{0};
   flag.store(1, std::memory_order_seq_cst); // C++ 原子操作
   ```
 
 #### **4. 文件状态检查**
-- **问题：** `mmap()` 需要确保映射文件存在且大小足够，否则可能导致访问越界。
-- **解决方案：** 在 `mmap()` 之前使用 `fstat()` 检查文件大小。
-- **示例：**
+
+* **问题：** `mmap()` 需要确保映射文件存在且大小足够，否则可能导致访问越界。
+* **解决方案：** 在 `mmap()` 之前使用 `fstat()` 检查文件大小。
+* **示例：**
+
   ```c
   struct stat st;
   if (fstat(fd, &st) == -1 || st.st_size < size) {
