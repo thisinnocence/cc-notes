@@ -1,0 +1,54 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC := gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS := -Wall -Wextra -g -std=c99$/;"	m
+ClockFSM	snow-3g.c	/^u32 ClockFSM(void)$/;"	f
+ClockLFSRInitializationMode	snow-3g.c	/^void ClockLFSRInitializationMode(u32 F)$/;"	f
+ClockLFSRKeyStreamMode	snow-3g.c	/^void ClockLFSRKeyStreamMode(void)$/;"	f
+DIValpha	snow-3g.c	/^u32 DIValpha(u8 c)$/;"	f
+FSM_R1	snow-3g.c	/^static u32 FSM_R1 = 0x00;$/;"	v	file:
+FSM_R2	snow-3g.c	/^static u32 FSM_R2 = 0x00;$/;"	v	file:
+FSM_R3	snow-3g.c	/^static u32 FSM_R3 = 0x00;$/;"	v	file:
+LFSR_S0	snow-3g.c	/^static u32 LFSR_S0 = 0x00;$/;"	v	file:
+LFSR_S1	snow-3g.c	/^static u32 LFSR_S1 = 0x00;$/;"	v	file:
+LFSR_S10	snow-3g.c	/^static u32 LFSR_S10 = 0x00;$/;"	v	file:
+LFSR_S11	snow-3g.c	/^static u32 LFSR_S11 = 0x00;$/;"	v	file:
+LFSR_S12	snow-3g.c	/^static u32 LFSR_S12 = 0x00;$/;"	v	file:
+LFSR_S13	snow-3g.c	/^static u32 LFSR_S13 = 0x00;$/;"	v	file:
+LFSR_S14	snow-3g.c	/^static u32 LFSR_S14 = 0x00;$/;"	v	file:
+LFSR_S15	snow-3g.c	/^static u32 LFSR_S15 = 0x00;$/;"	v	file:
+LFSR_S2	snow-3g.c	/^static u32 LFSR_S2 = 0x00;$/;"	v	file:
+LFSR_S3	snow-3g.c	/^static u32 LFSR_S3 = 0x00;$/;"	v	file:
+LFSR_S4	snow-3g.c	/^static u32 LFSR_S4 = 0x00;$/;"	v	file:
+LFSR_S5	snow-3g.c	/^static u32 LFSR_S5 = 0x00;$/;"	v	file:
+LFSR_S6	snow-3g.c	/^static u32 LFSR_S6 = 0x00;$/;"	v	file:
+LFSR_S7	snow-3g.c	/^static u32 LFSR_S7 = 0x00;$/;"	v	file:
+LFSR_S8	snow-3g.c	/^static u32 LFSR_S8 = 0x00;$/;"	v	file:
+LFSR_S9	snow-3g.c	/^static u32 LFSR_S9 = 0x00;$/;"	v	file:
+MUL64	snow-3g.c	/^u64 MUL64(u64 V, u64 P, u64 c)$/;"	f
+MUL64x	snow-3g.c	/^u64 MUL64x(u64 V, u64 c)$/;"	f
+MUL64xPOW	snow-3g.c	/^u64 MUL64xPOW(u64 V, u8 i, u64 c)$/;"	f
+MULalpha	snow-3g.c	/^u32 MULalpha(u8 c)$/;"	f
+MULx	snow-3g.c	/^u8 MULx(u8 V, u8 c)$/;"	f
+MULxPOW	snow-3g.c	/^u8 MULxPOW(u8 V, u8 i, u8 c)$/;"	f
+OBJS	Makefile	/^OBJS := $(SRCS:.c=.o)$/;"	m
+S1	snow-3g.c	/^u32 S1(u32 w)$/;"	f
+S2	snow-3g.c	/^u32 S2(u32 w)$/;"	f
+SNOW_3G_H	snow-3g.h	2;"	d
+SQ	snow-3g.c	/^static u8 SQ[256] = {$/;"	v	file:
+SR	snow-3g.c	/^static u8 SR[256] = {$/;"	v	file:
+SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
+TARGET	Makefile	/^TARGET := a.out$/;"	m
+main	main.c	/^int main()$/;"	f
+mask8bit	snow-3g.c	/^u8 mask8bit(int n)$/;"	f
+snow_3g_f8	snow-3g.c	/^void snow_3g_f8(u8 *key, u32 count, u32 bearer, u32 dir, u8 *data, u32 length)$/;"	f
+snow_3g_f9	snow-3g.c	/^void snow_3g_f9(u8* key, u32 count, u32 fresh, u32 dir, u8 *data, u64 length, $/;"	f
+snow_3g_generate_key_stream	snow-3g.c	/^void snow_3g_generate_key_stream(u32 n, u32 *ks)$/;"	f
+snow_3g_initialize	snow-3g.c	/^void snow_3g_initialize(u32 k[4], u32 IV[4])$/;"	f
+u32	snow-3g.h	/^typedef uint32_t u32;$/;"	t
+u64	snow-3g.h	/^typedef uint64_t u64;$/;"	t
+u8	snow-3g.h	/^typedef uint8_t u8;$/;"	t

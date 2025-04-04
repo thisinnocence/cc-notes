@@ -1,0 +1,84 @@
+# ==============================================
+# 基础风格配置
+# ==============================================
+BasedOnStyle: LLVM  # 基础风格选择 LLVM，其他可选：Google, Microsoft, WebKit
+Language: Cpp       # 指定 C++ 语言规范
+
+# ==============================================
+# 缩进与空格规则
+# ==============================================
+IndentWidth: 4                # 每级缩进 4 个空格
+UseTab: Never                 # 完全禁用制表符，强制使用空格
+TabWidth: 4                   # 制表符等效空格数（兼容有制表符的历史代码）
+ContinuationIndentWidth: 4    # 续行缩进宽度（函数参数换行等情况）
+AccessModifierOffset: -4      # 访问修饰符相对类体左对齐缩进 4 空格(public/private和class对齐)
+
+# ==============================================
+# 大括号与代码块格式
+# ==============================================
+BreakBeforeBraces: Custom     # 自定义大括号换行规则
+BraceWrapping:
+  AfterFunction: true          # 函数定义后换行（返回类型与函数名同行）
+  AfterClass: false            # 类定义后不换行（保持 class 与 { 同行）
+  AfterControlStatement: Never # 控制语句（if/for）后不换行
+  SplitEmptyRecord: true       # 空类/结构体允许换行
+  SplitEmptyFunction: true     # 空函数体允许换行
+
+AllowShortBlocksOnASingleLine: Never        # 禁止任何形式的单行代码块
+AllowShortFunctionsOnASingleLine: None      # 完全禁止短函数单行显示
+AllowShortIfStatementsOnASingleLine: Never  # 禁止单行 if 语句
+AllowShortLoopsOnASingleLine: false         # 禁止单行循环语句
+
+# ==============================================
+# 指针、引用与类型对齐
+# ==============================================
+DerivePointerAlignment: false # 禁用自动推导指针对齐方式
+PointerAlignment: Left        # 指针符号左对齐（int* ptr 风格）
+ReferenceAlignment: Pointer   # 引用符号对齐方式与指针保持一致
+
+# ==============================================
+# 运算符与表达式格式
+# ==============================================
+AlignOperands: Align                  # 多行表达式操作符对齐
+BreakBeforeBinaryOperators: None      # 运算符前不换行（保持紧凑格式）
+SpaceBeforeAssignmentOperators: true  # 赋值运算符前加空格（a = 5）
+SpaceInEmptyBlock: false              # 空代码块保持紧凑（{} 中间无空格）
+
+# ==============================================
+# 函数与参数格式
+# ==============================================
+BinPackParameters: false      # 函数参数禁止自动换行打包
+BinPackArguments: false       # 函数调用参数禁止自动换行打包
+AllowAllParametersOfDeclarationOnNextLine: false  # 强制多参数声明换行
+PenaltyBreakBeforeFirstCallParameter: 100  # 增加函数调用首参数换行成本
+
+# ==============================================
+# 注释格式规范
+# ==============================================
+AlignTrailingComments: true     # 行尾注释自动对齐
+SpacesBeforeTrailingComments: 2 # 行尾注释前保留 2 空格（// 前空两格）
+ReflowComments: true            # 自动重排多行注释
+ColumnLimit: 100                # 注释行宽限制（0 不限制宽度）
+
+# ==============================================
+# 头文件与命名空间
+# ==============================================
+SortIncludes: false            # 禁用头文件自动排序（保持原始顺序）
+IncludeBlocks: Preserve        # 保持头文件包含块结构
+FixNamespaceComments: true      # 自动修复命名空间结束注释
+NamespaceIndentation: None      # 命名空间内容不额外缩进
+
+# ==============================================
+# 高级格式控制
+# ==============================================
+# 模板与泛型
+AlwaysBreakTemplateDeclarations: MultiLine  # 多行模板声明自动换行
+BreakConstructorInitializers: BeforeColon   # 构造函数初始化列表在冒号前换行
+
+# 空行控制
+MaxEmptyLinesToKeep: 1     # 最大连续空行数（清理多余空行）
+KeepEmptyLinesAtTheStartOfBlocks: true  # 允许代码块起始处的空行
+
+# 特殊符号处理
+SpaceBeforeRangeBasedForLoopColon: false  # 范围 for 循环冒号前不留空格
+SpaceAfterLogicalNot: false    # 逻辑非运算符后不留空格（!condition）

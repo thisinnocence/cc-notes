@@ -1,0 +1,9 @@
+# This is a demo Kconfig file
+
+config FEATURE_A
+    bool "Enable Feature A"
+    default y
+
+config FEATURE_B
+    bool "Enable Feature B"
+    default n

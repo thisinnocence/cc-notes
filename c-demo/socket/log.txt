@@ -1,0 +1,18 @@
+[23:46:25.251537][client.c:51] connects to server OK!
+[23:46:25.251642][client.c:114] msg_send call start
+||
+[23:46:25.251657][client.c:62] send header: type 1 len 17
+[23:46:25.251669][client.c:64] send body: Hello from client
+[23:46:25.251672][client.c:97] start pkt_thread, arg((nil))
+[23:46:25.251684][client.c:69] thread: get mutex lock
+[23:46:25.251758][client.c:74] send ok, now wait on pthread_cond
+||
+[23:46:25.251758][server.c:60] recv header: header type 1, len 17
+[23:46:25.251944][server.c:66] recv body: Hello from client
+[23:46:25.251973][server.c:70] response sent ok!
+||
+[23:46:25.252111][client.c:84] recv finish, Server: Hello from server
+[23:46:25.252133][client.c:88] msg_recv, Data updated to 42
+[23:46:25.252145][client.c:91] pkt-thread: pthread_cond_signal over.
+||
+[23:46:25.252169][client.c:116] msg_send call over, recv msg already.
