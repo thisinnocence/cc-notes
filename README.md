@@ -1,7 +1,10 @@
-# CPP notes
+# C/C++ notes
 
-基于在线书籍改造的的一个笔记工程，方便自己查询。在线书籍如下:
+C/C++相关知识点笔记。包括博客，笔记和对应代码实现。
+
+针对C++，增加了 `cpp-book` 目录，主要基于下面的书籍：
 
 - <https://github.com/changkun/modern-cpp-tutorial>
 - <https://changkun.de/modern-cpp/zh-cn/00-preface>
-
+  
+方便记录和查阅。

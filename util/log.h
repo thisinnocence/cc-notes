@@ -1,5 +1,4 @@
-#ifndef __LOG_H__
-#define __LOG_H__
+#pragma once
 
 #include <stdio.h>
 #include <sys/time.h>
@@ -33,4 +32,3 @@ static inline void log_time()
     } \
 } while (0)
 
-#endif

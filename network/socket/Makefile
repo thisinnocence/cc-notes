@@ -6,7 +6,7 @@ TARGETS = server.out client.out
 .PHONY: all
 all: $(TARGETS)
 
-CFLAGS = -MMD -MP -Wall -Wextra -g -I../util
+CFLAGS = -MMD -MP -Wall -Wextra -g -I../../util
 LDFLAGS = -lrt -lpthread
 
 SRCS = $(wildcard *.c)

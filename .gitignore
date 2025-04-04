@@ -48,3 +48,6 @@
 # ignore lsp tmp file
 compile_commands.json
 .cache/
+
+# tags
+tags
