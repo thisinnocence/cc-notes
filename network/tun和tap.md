@@ -6,11 +6,19 @@
 - <https://vtun.sourceforge.net/tun/faq.html>
 - <https://en.wikipedia.org/wiki/TUN/TAP>
 
-TUN/TAP provides packet reception and transmission for user space programs.
+TUN/TAP 给用户态程序提供报文接收和转发的功能, 两者对比如下：
+
+| 项目 | TUN | TAP |
+|------|-----|-----|
+| 层级 | L3（网络层 / IP 层） | L2（数据链路层 / MAC 层） |
+| 处理的数据 | IP 数据包 | 以太网帧（Ethernet Frame） |
+| 使用场景 | 点对点通信（如 VPN） | 模拟以太网设备，如桥接虚拟机网络 |
+| 接口名称常见格式 | `tun0`, `tun1`, ... | `tap0`, `tap1`, ... |
+| 数据内容 | 不含以太网头部，直接是 IP 包 | 含有以太网头部 |
+| 对应协议 | IP | Ethernet |
+
 In order to use the driver a program has to open `/dev/net/tun` and issue a
 corresponding `ioctl()` to register a network device with the kernel.
-
-![tun_tap](./pic/tun_tap.png)
 
 ## TUN
 
