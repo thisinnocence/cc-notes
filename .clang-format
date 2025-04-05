@@ -20,21 +20,23 @@ BreakBeforeBraces: Custom     # 自定义大括号换行规则
 BraceWrapping:
   AfterFunction: true          # 函数定义后换行（返回类型与函数名同行）
   AfterClass: false            # 类定义后不换行（保持 class 与 { 同行）
-  AfterControlStatement: Never # 控制语句（if/for）后不换行
-  SplitEmptyRecord: true       # 空类/结构体允许换行
-  SplitEmptyFunction: true     # 空函数体允许换行
+  AfterControlStatement: false   # if/while/for 等控制语句后不换行（LLVM 默认）
+  BeforeElse: false              # else 不另起一行（LLVM 默认）
 
-AllowShortBlocksOnASingleLine: Never        # 禁止任何形式的单行代码块
-AllowShortFunctionsOnASingleLine: None      # 完全禁止短函数单行显示
-AllowShortIfStatementsOnASingleLine: Never  # 禁止单行 if 语句
-AllowShortLoopsOnASingleLine: false         # 禁止单行循环语句
+# 控制函数声明/调用参数打包换行策略（你之前提到）
+BinPackParameters: false
+BinPackArguments: false
+AllowAllParametersOfDeclarationOnNextLine: false
+PenaltyBreakBeforeFirstCallParameter: 100
+AllowShortFunctionsOnASingleLine: InlineOnly  # 短函数（1 行）允许同行（如简单 getter）
+AllowShortIfStatementsOnASingleLine: false    # 强制 if 语句换行（避免同行 if）
 
 # ==============================================
 # 指针、引用与类型对齐
 # ==============================================
 DerivePointerAlignment: false # 禁用自动推导指针对齐方式
-PointerAlignment: Left        # 指针符号左对齐（int* ptr 风格）
-ReferenceAlignment: Pointer   # 引用符号对齐方式与指针保持一致
+PointerAlignment: Left        # 指针符号左对齐（int* ptr）风格（LLVM 默认）
+ReferenceAlignment: Pointer   # 与 PointerAlignment 同风格（int& ref)
 
 # ==============================================
 # 运算符与表达式格式
@@ -45,20 +47,12 @@ SpaceBeforeAssignmentOperators: true  # 赋值运算符前加空格（a = 5）
 SpaceInEmptyBlock: false              # 空代码块保持紧凑（{} 中间无空格）
 
 # ==============================================
-# 函数与参数格式
-# ==============================================
-BinPackParameters: false      # 函数参数禁止自动换行打包
-BinPackArguments: false       # 函数调用参数禁止自动换行打包
-AllowAllParametersOfDeclarationOnNextLine: false  # 强制多参数声明换行
-PenaltyBreakBeforeFirstCallParameter: 100  # 增加函数调用首参数换行成本
-
-# ==============================================
 # 注释格式规范
 # ==============================================
 AlignTrailingComments: true     # 行尾注释自动对齐
 SpacesBeforeTrailingComments: 2 # 行尾注释前保留 2 空格（// 前空两格）
 ReflowComments: true            # 自动重排多行注释
-ColumnLimit: 100                # 注释行宽限制（0 不限制宽度）
+ColumnLimit: 120                # 注释行宽限制（0 不限制宽度）
 
 # ==============================================
 # 头文件与命名空间
@@ -73,7 +67,6 @@ NamespaceIndentation: None      # 命名空间内容不额外缩进
 # ==============================================
 # 模板与泛型
 AlwaysBreakTemplateDeclarations: MultiLine  # 多行模板声明自动换行
-BreakConstructorInitializers: BeforeColon   # 构造函数初始化列表在冒号前换行
 
 # 空行控制
 MaxEmptyLinesToKeep: 1     # 最大连续空行数（清理多余空行）
