@@ -6,8 +6,6 @@ order: 9
 
 # 第 9 章 其他杂项
 
-[TOC]
-
 ## 9.1 新类型
 
 ### `long long int`
@@ -183,10 +181,5 @@ int main() {
 
 本节介绍的几个特性是从仍未介绍的现代 C++ 新特性里使用频次较靠前的特性了，`noexcept` 是最为重要的特性，它的一个功能在于能够阻止异常的扩散传播，有效的让编译器最大限度的优化我们的代码。
 
-[返回目录](./toc.md) | [上一章](./08-filesystem.md) | [下一章 展望：C++20 简介](./10-cpp20.md)
+[上一章](./08-filesystem.md) | [下一章 展望：C++20 简介](./10-cpp20.md)
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本教程由[欧长坤](https://github.com/changkun)撰写，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

@@ -6,8 +6,6 @@ order: 2
 
 # 第 2 章 语言可用性的强化
 
-[TOC]
-
 当我们声明、定义一个变量或者常量，对代码进行流程控制、面向对象的功能、模板编程等这些都是运行时之前，可能发生在编写代码或编译器编译代码时的行为。为此，我们通常谈及**语言可用性**，是指那些发生在运行时之前的语言行为。
 
 ## 2.1 常量
@@ -1018,12 +1016,5 @@ std::cout << new_enum::value3 << std::endl
 
 2. 尝试用[折叠表达式](#折叠表达式)实现用于计算均值的函数，传入允许任意参数。
 
-> 参考答案[见此](../../exercises/2)。
+[上一章](./01-intro.md) | [下一章 运行时强化](./03-runtime.md)
 
-[返回目录](./toc.md) | [上一章](./01-intro.md) | [下一章 运行时强化](./03-runtime.md)
-
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本书系[欧长坤](https://github.com/changkun)著，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

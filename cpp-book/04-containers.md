@@ -6,8 +6,6 @@ order: 4
 
 # 第 4 章 容器
 
-[TOC]
-
 ## 4.1 线性容器
 
 ### `std::array`
@@ -301,10 +299,5 @@ for(int i = 0; i != tuple_len(new_tuple); ++i)
 
 `std::tuple` 虽然有效，但是标准库提供的功能有限，没办法满足运行期索引和迭代的需求，好在我们还有其他的方法可以自行实现。
 
-[返回目录](./toc.md) | [上一章](./03-runtime.md) | [下一章 智能指针与内存管理](./05-pointers.md)
+[上一章](./03-runtime.md) | [下一章 智能指针与内存管理](./05-pointers.md)
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本教程由[欧长坤](https://github.com/changkun)撰写，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

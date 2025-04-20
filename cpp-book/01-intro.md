@@ -6,8 +6,6 @@ order: 1
 
 # 第 1 章 迈向现代 C++
 
-[TOC]
-
 **编译环境**：本书将使用 `clang++` 作为唯一使用的编译器，同时总是在代码中使用 `-std=c++2a` 编译标志。
 
 ```bash
@@ -133,7 +131,7 @@ clean:
 
 不必担心，本书的后续章节将为你介绍这一切。
 
-[返回目录](./toc.md) | [上一章](./00-preface.md) | [下一章 语言可用性强化](./02-usability.md)
+[上一章](./00-preface.md) | [下一章 语言可用性强化](./02-usability.md)
 
 ## 进一步阅读的参考文献
 
@@ -142,8 +140,3 @@ clean:
 - [C++ 特性在 GCC/Clang 等编译器中的支持情况](https://en.cppreference.com/w/cpp/compiler_support)
 - [C++98 与 C99 之间的区别](http://david.tribble.com/text/cdiffs.htm#C99-vs-CPP98)
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本书系[欧长坤](https://github.com/changkun)著，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

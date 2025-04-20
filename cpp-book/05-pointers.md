@@ -6,8 +6,6 @@ order: 5
 
 # 第 5 章 智能指针与内存管理
 
-[TOC]
-
 ## 5.1 RAII 与引用计数
 
 了解 `Objective-C`/`Swift` 的程序员应该知道引用计数的概念。引用计数这种计数是为了防止内存泄露而产生的。
@@ -181,14 +179,9 @@ int main() {
 
 智能指针这种技术并不新奇，在很多语言中都是一种常见的技术，现代 C++ 将这项技术引进，在一定程度上消除了 `new`/`delete` 的滥用，是一种更加成熟的编程范式。
 
-[返回目录](./toc.md) | [上一章](./04-containers.md) | [下一章 正则表达式](./06-regex.md)
+[上一章](./04-containers.md) | [下一章 正则表达式](./06-regex.md)
 
 ## 进一步阅读的参考资料
 
 1. [stackoverflow 上关于『C++11为什么没有 make_unique』的讨论](https://stackoverflow.com/questions/12580432/why-does-c11-have-make-shared-but-not-make-unique)
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本教程由[欧长坤](https://github.com/changkun)撰写，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

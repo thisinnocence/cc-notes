@@ -6,8 +6,6 @@ order: 7
 
 # 第 7 章 并行与并发
 
-[TOC]
-
 ## 7.1 并行基础
 
 `std::thread` 用于创建一个执行的线程实例，所以它是一切并发编程的基础，使用时需要包含 `<thread>` 头文件，
@@ -551,7 +549,7 @@ C++11 语言层提供了并发编程的相关支持，本节简单的介绍了 `
 
 2. 请使用 `std::atomic<bool>` 实现一个互斥锁。
 
-[返回目录](./toc.md) | [上一章](./06-regex.md) | [下一章 文件系统](./08-filesystem.md)
+[上一章](./06-regex.md) | [下一章 文件系统](./08-filesystem.md)
 
 ## 进一步阅读的参考资料
 
@@ -559,8 +557,3 @@ C++11 语言层提供了并发编程的相关支持，本节简单的介绍了 `
 - [线程支持库文档](https://en.cppreference.com/w/cpp/thread)
 - Herlihy, M. P., & Wing, J. M. (1990). Linearizability: a correctness condition for concurrent objects. ACM Transactions on Programming Languages and Systems, 12(3), 463–492. https://doi.org/10.1145/78969.78972
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本教程由[欧长坤](https://github.com/changkun)撰写，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。

@@ -6,8 +6,6 @@ order: 3
 
 # 第 3 章 语言运行期的强化
 
-[TOC]
-
 ## 3.1 Lambda 表达式
 
 Lambda 表达式是现代 C++ 中最重要的特性之一，而 Lambda 表达式，实际上就是提供了一个类似匿名函数的特性，
@@ -568,14 +566,9 @@ constexpr _Tp&& forward(typename std::remove_reference<_Tp>::type&& __t) noexcep
 2. 函数对象容器 std::function
 3. 右值引用
 
-[返回目录](./toc.md) | [上一章](./02-usability.md) | [下一章 容器](./04-containers.md)
+[上一章](./02-usability.md) | [下一章 容器](./04-containers.md)
 
 ## 进一步阅读的参考文献
 
 - [Bjarne Stroustrup, C++ 语言的设计与演化](https://www.amazon.cn/dp/B007JFSCPY)
 
-## 许可
-
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
-
-本教程由[欧长坤](https://github.com/changkun)撰写，采用[知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/)许可。项目中代码使用 MIT 协议开源，参见[许可](../../LICENSE)。
