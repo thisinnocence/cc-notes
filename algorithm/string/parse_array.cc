@@ -4,69 +4,40 @@
 #include <cstdio>
 #include <cstring>
 #include <cctype>
+#include <charconv>
 
-namespace ArrayParser {
-    void SkipSpaces(const char*& s) {
-        while (*s && std::isspace(static_cast<unsigned char>(*s))) ++s;
-    }
-
-    bool ParseArray(std::array<int, 5>& arr, const char*& s) {
-        SkipSpaces(s);
-        if (*s != '[') return false;
-        ++s;
-
+bool Parse(const std::string& in, std::vector<std::array<int, 5>>& res) {
+    const char* s = in.c_str();
+    auto skipSpaces = [&]() { while (std::isspace(*s)) ++s; };
+    auto parse5 = [&](std::array<int, 5>& arr) {
+        if (*s++ != '[') return false;
         for (int i = 0; i < 5; ++i) {
-            SkipSpaces(s);
-
-            if (!std::isdigit(*s)) return false;
-            int val = 0;
-            while (std::isdigit(*s)) {
-                val = val * 10 + (*s - '0');
-                ++s;
-            }
-            arr[i] = val;
-
-            SkipSpaces(s);
-            if (i < 4) {
-                if (*s != ',') return false;
-                ++s;
-            }
+            skipSpaces(); int val;
+            auto [p, err] = std::from_chars(s, s + std::strlen(s), val);
+            if (err != std::errc{}) return false;
+            arr[i] = val; s = p; skipSpaces();
+            if (i < 4 && *s++ != ',') return false;
         }
+        return *s++ == ']';
+    };
 
-        SkipSpaces(s);
-        if (*s != ']') return false;
-        ++s;
-        return true;
-    }
-
-    bool Parse(const std::string& input, std::vector<std::array<int, 5>>& result) {
-        const char* s = input.c_str();
-        SkipSpaces(s);
-        if (*s != '[') return false;
-        ++s;
-
-        for (;;) {
-            SkipSpaces(s);
-            if (*s == ']') break;
-
-            std::array<int, 5> arr;
-            if (!ParseArray(arr, s)) return false;
-            result.push_back(arr);
-
-            SkipSpaces(s);
-            if (*s == ',') {
-                ++s;
-            } else if (*s == ']') {
-                break;
-            } else {
-                return false;
-            }
+    skipSpaces();
+    if (*s++ != '[') return false;
+    for(;;) {
+        skipSpaces(); if (*s == ']') break;
+        std::array<int, 5> a;
+        if (!parse5(a)) return false;
+        res.push_back(a); skipSpaces();
+        if (*s == ',') {
+            ++s;
+        } else if (*s == ']') {
+            break;
+        } else {
+            return false;
         }
-
-        ++s;
-        SkipSpaces(s);
-        return *s == '\0';
     }
+    ++s; skipSpaces();
+    return *s == '\0';
 }
 
 void TestParse() {
@@ -102,7 +73,7 @@ void TestParse() {
 
     for (size_t i = 0; i < testCases.size(); ++i) {
         std::vector<std::array<int, 5>> result;
-        bool ok = ArrayParser::Parse(testCases[i].input, result);
+        bool ok = Parse(testCases[i].input, result);
         std::cout << "Test case " << i + 1 << ": " 
                   << (ok == testCases[i].expected ? "✅ Passed" : "❌ Failed")
                   << "\n";
