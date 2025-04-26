@@ -6,38 +6,33 @@
 #include <cctype>
 #include <charconv>
 
-bool Parse(const std::string& in, std::vector<std::array<int, 5>>& res) {
-    const char* s = in.c_str();
-    auto skipSpaces = [&]() { while (std::isspace(*s)) ++s; };
+bool Parse(const std::string& input, std::vector<std::array<int, 5>>& res) {
+    const char* s = input.c_str();
+    const char* end = s + input.size();
+
+    auto skip = [&]() { while (s < end && std::isspace(*s)) ++s; };
+
     auto parse5 = [&](std::array<int, 5>& arr) {
-        if (*s++ != '[') return false;
+        skip(); if (s >= end || *s++ != '[') return false;
         for (int i = 0; i < 5; ++i) {
-            skipSpaces(); int val;
-            auto [p, err] = std::from_chars(s, s + std::strlen(s), val);
-            if (err != std::errc{}) return false;
-            arr[i] = val; s = p; skipSpaces();
-            if (i < 4 && *s++ != ',') return false;
+            skip(); auto [p, err] = std::from_chars(s, end, arr[i]);
+            if (err != std::errc{}) return false; s = p;
+            skip(); if (i < 4) { if (s >= end || *s++ != ',') return false; }
         }
-        return *s++ == ']';
+        skip(); if (s >= end || *s++ != ']') return false;
+        return true;
     };
 
-    skipSpaces();
-    if (*s++ != '[') return false;
+    skip(); if (s >= end || *s++ != '[') return false;
     for(;;) {
-        skipSpaces(); if (*s == ']') break;
-        std::array<int, 5> a;
-        if (!parse5(a)) return false;
-        res.push_back(a); skipSpaces();
-        if (*s == ',') {
-            ++s;
-        } else if (*s == ']') {
-            break;
-        } else {
-            return false;
-        }
+        skip(); if (s >= end || *s == ']') break;
+        std::array<int, 5> arr; if (!parse5(arr)) return false; res.push_back(arr);
+        skip(); if (s >= end) return false;
+        if (*s == ',') ++s;
+        else if (*s != ']') return false;
     }
-    ++s; skipSpaces();
-    return *s == '\0';
+    skip(); if (s >= end || *s++ != ']') return false;
+    skip(); return s == end;
 }
 
 void TestParse() {
