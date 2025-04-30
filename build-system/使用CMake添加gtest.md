@@ -15,14 +15,14 @@ project/
 │   ├── main.cpp            # 程序入口
 │   └── utils.cpp           # 核心功能模块
 └── test/                   # 测试代码
-    └── test_utils.cpp      # 单元测试
+    └── utils_test.cpp      # 单元测试
 ```
 
 ## 核心配置方案
 
 ### 精简版CMake配置
 
-根目录CMakeLists.txt**:
+根目录 `CMakeLists.txt`:
 
 ```cmake
 cmake_minimum_required(VERSION 3.10)
@@ -36,20 +36,15 @@ target_include_directories(main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_subdirectory(test)
 ```
 
-**test/CMakeLists.txt**:
+`test/CMakeLists.txt`：
 
 ```cmake
 # 测试可执行文件构建(也可以父cmake传递过来变量直接用)
-add_executable(test_utils test_utils.cpp ../src/utils.cpp)
+add_executable(utils_test utils_test.cpp ../src/utils.cpp)
 
 # 使用find_package引入GTest
 find_package(GTest REQUIRED)
-target_link_libraries(test_utils PRIVATE GTest::GTest GTest::Main)
-
-# 可选：设置测试文件的运行时路径
-set_target_properties(test_utils PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin
-)
+target_link_libraries(utils_test PRIVATE GTest::GTest GTest::Main)
 ```
 
 ## 构建与测试流程
@@ -59,17 +54,17 @@ set_target_properties(test_utils PROPERTIES
 ```bash
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug  # 生成构建系统
-make                              # 编译所有目标
+make                               # 编译所有目标
 ```
 
 ### 测试执行方式
 
 ```bash
 # 直接运行测试程序
-./test/test_utils
+./test/utils_test
 
 # 或者如果设置了输出目录
-./test/bin/test_utils
+./test/bin/utils_test
 ```
 
 ## 变量作用域管理
@@ -94,7 +89,7 @@ set(MY_SOURCES
     src/utils.cpp
 )
 
-# 备选方案：谨慎使用GLOB
+# 备选方案：谨慎使用GLOB, 不推荐
 file(GLOB SRC_FILES LIST_DIRECTORIES false 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
@@ -109,8 +104,8 @@ file(GLOB SRC_FILES LIST_DIRECTORIES false
 find_package(GTest REQUIRED)
 
 # 测试目标配置
-add_executable(test_utils test_utils.cpp ${SRC_UTILS})
-target_link_libraries(test_utils PRIVATE 
+add_executable(utils_test utils_test.cpp ${SRC_UTILS})
+target_link_libraries(utils_test PRIVATE 
     GTest::GTest 
     GTest::Main
     Threads::Threads  # 如果需要多线程支持
@@ -143,7 +138,7 @@ endif()
 ```cmake
 # 添加运行测试的自定义目标
 add_custom_target(run_tests
-    COMMAND ./test/test_utils
+    COMMAND ./test/utils_test
     COMMENT "Running tests..."
     VERBATIM
 )
@@ -157,7 +152,7 @@ add_custom_target(run_tests
 
 ```cmake
 # 设置RPATH（相对路径）
-set_target_properties(test_utils PROPERTIES
+set_target_properties(utils_test PROPERTIES
     BUILD_RPATH "$ORIGIN/../lib"
     INSTALL_RPATH "$ORIGIN/../lib"
 )
