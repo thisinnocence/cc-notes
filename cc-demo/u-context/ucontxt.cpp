@@ -18,11 +18,14 @@ struct Fiber {
     bool finished = false;
     std::function<void()> task;
 
-    Fiber(std::function<void()> func) : task(std::move(func)) { stack = new char[STACK_SIZE]; }
+    Fiber(std::function<void()> func) :
+        task(std::move(func))
+    {
+        stack = new char[STACK_SIZE];
+    }
 
     ~Fiber() { delete[] stack; }
 
-    // 禁止拷贝和移动，由 unique_ptr 管理
     Fiber(const Fiber&) = delete;
     Fiber& operator=(const Fiber&) = delete;
     Fiber(Fiber&&) = delete;
@@ -38,8 +41,17 @@ private:
 public:
     Scheduler() { g_scheduler = this; }
 
+    /**
+     * @brief 创建一个新的协程（fiber），并将其加入调度器。
+     *
+     * @param func 协程要执行的任务。注意，这里的func是std::function<void()>类型，
+     *        它不仅仅是一个8字节的函数指针，还可能包含捕获的上下文、lambda对象等，
+     *        其内部结构可能远大于一个简单的函数地址。因此，为了避免不必要的拷贝，
+     *        提高效率，使用std::move将func转为右值引用，将其内容转移到新创建的Fiber对象中。
+     */
     void spawn(std::function<void()> func)
     {
+        // 使用std::move将func转为右值引用，避免不必要的拷贝，提高效率
         auto new_fiber = std::make_unique<Fiber>(std::move(func));
 
         // 获取当前上下文，初始化new_fiber->context
