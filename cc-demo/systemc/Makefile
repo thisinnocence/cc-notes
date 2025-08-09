@@ -4,9 +4,9 @@ TARGETS = $(SRCS:.cc=.out)
 .PHONY: all
 all: $(TARGETS)
 
-SYSTEMC_HOME = ../../systemc
+SYSTEMC_HOME = $(shell echo $$HOME)/github/systemc
 
-INC_DIRS  = ../util
+INC_DIRS  = ../../util
 INC_DIRS += $(SYSTEMC_HOME)/include
 INC_DIRS += $(SYSTEMC_HOME)/examples/sysc/async_suspend
 
