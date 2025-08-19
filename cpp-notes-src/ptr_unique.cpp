@@ -1,7 +1,8 @@
 #include <iostream>
 #include <utility> // 引入 std::forward 和 std::move
 
-template <typename T> class unique_ptr {
+template <typename T>
+class unique_ptr {
 private:
     T* ptr; // 管理的原始指针
 
