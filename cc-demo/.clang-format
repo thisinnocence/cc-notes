@@ -1,0 +1,13 @@
+# ref: https://github.com/google/googletest/blob/main/.clang-format
+#
+#  wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+#  sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-18 main"
+#  sudo apt-get update
+#  sudo apt-get install clang-format-18
+#  sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-18 100
+#  clang-format --version
+#
+# Run manually to reformat a file:
+# clang-format -i --style=file <file>
+Language:        Cpp
+BasedOnStyle:  Google
