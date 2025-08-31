@@ -7,7 +7,7 @@ class Animal {
 public:
     Animal() { cout << "Construct Animal\n"; }
     // 父类如果被继承，析构函数一定要virtual，好让编译器delete父类指针时，去找虚函数表
-    virtual ~Animal() { cout << "destruct Animal\n"; }
+    virtual ~Animal() { cout << "Destruct Animal\n"; }
     virtual void eat() {
         cout << "Animal eat\n";
     }
@@ -19,10 +19,11 @@ public:
 // 继承如果不指定访问权限，默认是 private
 // 子类构造时，先构造父类，再构造子类
 // 子类析构时，先析构子类，再析构父类
-class Dog: public Animal {
+// 子类不想在被后续继承的时候，用 final 关键字
+class Dog final: public Animal {
 public:
     Dog() { cout << "Construct Dog\n"; }
-    ~Dog() { cout << "destruct Dog\n"; }
+    ~Dog() { cout << "Destruct Dog\n"; }
     void eat() override {
         cout << "Dog eat\n";
     }
@@ -31,7 +32,7 @@ public:
 class Cat: public Animal {
 public:
     Cat() { cout << "Construct Cat\n"; }
-    ~Cat() { cout << "destruct Cat\n"; }
+    ~Cat() { cout << "Destruct Cat\n"; }
     void eat() override {
         cout << "Cat eat\n";
     }
@@ -39,17 +40,23 @@ public:
 
 int main()
 {
-    unique_ptr<Animal> ani = make_unique<Cat>();
-    ani->eat();
-    ani->show();
+    unique_ptr<Animal> ani;
+    auto live = [&ani]() {
+        ani->eat();
+        ani->show();
+    };
+
+    // 父类声明，子类实现这种多态，不能用 auto，编译器无法推导你的意图了
+    ani = make_unique<Cat>();
+    live();
 
     cout << "----\n";
-    // reset 后，会自动析构原来的 raw-data, 不是推荐写法，直接make赋值，会自动释放老的资源的
+    // reset 后，会自动析构原来的 raw-data, 但不是推荐写法
+    // 可以直接赋值，会自动释放老的资源的
     // ani.reset(new Dog);
     ani = make_unique<Dog>(); 
     cout << "----\n";
+    live();
 
-    ani->eat();
-    ani->show();
     return 0;
 }
