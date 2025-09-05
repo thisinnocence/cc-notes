@@ -1,77 +1,14 @@
-# ==============================================
-# 基础风格配置
-# ==============================================
-BasedOnStyle: LLVM  # 基础风格选择 LLVM，其他可选：Google, Microsoft, WebKit
-Language: Cpp       # 指定 C++ 语言规范
+Language:        Cpp
+BasedOnStyle:  Google
 
-# ==============================================
-# 缩进与空格规则
-# ==============================================
-IndentWidth: 4                # 每级缩进 4 个空格
-UseTab: Never                 # 完全禁用制表符，强制使用空格
-TabWidth: 4                   # 制表符等效空格数（兼容有制表符的历史代码）
-ContinuationIndentWidth: 4    # 续行缩进宽度（函数参数换行等情况）
-AccessModifierOffset: -4      # 访问修饰符相对类体左对齐缩进 4 空格(public/private和class对齐)
+# 缩进4空格， public/private等缩进2个空格
+IndentWidth: 4 
+AccessModifierOffset: -2
 
-# ==============================================
-# 大括号与代码块格式
-# ==============================================
-BreakBeforeBraces: Custom     # 自定义大括号换行规则
+# 函数名后的大括号换行
+BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterFunction: true          # 函数定义后换行（返回类型与函数名同行）
-  AfterClass: false            # 类定义后不换行（保持 class 与 { 同行）
-  AfterControlStatement: false   # if/while/for 等控制语句后不换行（LLVM 默认）
-  BeforeElse: false              # else 不另起一行（LLVM 默认）
+  AfterFunction: true
 
-# 控制函数声明/调用参数打包换行策略（你之前提到）
-BinPackParameters: false
-BinPackArguments: false
-AllowAllParametersOfDeclarationOnNextLine: false
-PenaltyBreakBeforeFirstCallParameter: 100
-AllowShortFunctionsOnASingleLine: InlineOnly  # 短函数（1 行）允许同行（如简单 getter）
-AllowShortIfStatementsOnASingleLine: false    # 强制 if 语句换行（避免同行 if）
-
-# ==============================================
-# 指针、引用与类型对齐
-# ==============================================
-DerivePointerAlignment: false # 禁用自动推导指针对齐方式
-PointerAlignment: Left        # 指针符号左对齐（int* ptr）风格（LLVM 默认）
-ReferenceAlignment: Pointer   # 与 PointerAlignment 同风格（int& ref)
-
-# ==============================================
-# 运算符与表达式格式
-# ==============================================
-AlignOperands: Align                  # 多行表达式操作符对齐
-BreakBeforeBinaryOperators: None      # 运算符前不换行（保持紧凑格式）
-SpaceBeforeAssignmentOperators: true  # 赋值运算符前加空格（a = 5）
-SpaceInEmptyBlock: false              # 空代码块保持紧凑（{} 中间无空格）
-
-# ==============================================
-# 注释格式规范
-# ==============================================
-AlignTrailingComments: true     # 行尾注释自动对齐
-SpacesBeforeTrailingComments: 2 # 行尾注释前保留 2 空格（// 前空两格）
-ReflowComments: true            # 自动重排多行注释
-ColumnLimit: 120                # 注释行宽限制（0 不限制宽度）
-
-# ==============================================
-# 头文件与命名空间
-# ==============================================
-SortIncludes: false            # 禁用头文件自动排序（保持原始顺序）
-IncludeBlocks: Preserve        # 保持头文件包含块结构
-FixNamespaceComments: true      # 自动修复命名空间结束注释
-NamespaceIndentation: None      # 命名空间内容不额外缩进
-
-# ==============================================
-# 高级格式控制
-# ==============================================
-# 模板与泛型
-AlwaysBreakTemplateDeclarations: MultiLine  # 多行模板声明自动换行
-
-# 空行控制
-MaxEmptyLinesToKeep: 1     # 最大连续空行数（清理多余空行）
-KeepEmptyLinesAtTheStartOfBlocks: true  # 允许代码块起始处的空行
-
-# 特殊符号处理
-SpaceBeforeRangeBasedForLoopColon: false  # 范围 for 循环冒号前不留空格
-SpaceAfterLogicalNot: false    # 逻辑非运算符后不留空格（!condition）
+# 行宽
+ColumnLimit: 100
