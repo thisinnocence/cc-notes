@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <memory>
 
@@ -30,6 +31,10 @@ class Cat : public Animal {
     void Eat() override { cout << "Cat eat\n"; }
 };
 
+std::function<int(int, int)> add = [](int a, int b) { return a + b; };
+
+auto sub = [](int a, int b) { return a - b; };
+
 int main()
 {
     unique_ptr<Animal> ani;
@@ -49,6 +54,9 @@ int main()
     ani = make_unique<Dog>();
     cout << "----\n";
     live();
+
+    cout << "1+1=" << add(1, 1) << endl;
+    cout << "1-1=" << sub(1, 1) << endl;
 
     return 0;
 }
