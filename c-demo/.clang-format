@@ -1,0 +1,10 @@
+# 函数左大括号换行K&R风格
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+
+# 只有空函数格式化合并一行
+AllowShortFunctionsOnASingleLine: Empty
+
+# 缩进4空格
+IndentWidth: 4
