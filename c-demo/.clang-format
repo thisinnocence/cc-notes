@@ -6,5 +6,8 @@ BraceWrapping:
 # 只有空函数格式化合并一行
 AllowShortFunctionsOnASingleLine: Empty
 
-# 缩进4空格
+# 缩进4空格, 无明确指定clang-format默认是空格
 IndentWidth: 4
+
+# 枚举不要合并一行
+AllowShortEnumsOnASingleLine: false

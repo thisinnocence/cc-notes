@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <sys/mman.h>
 
-typedef enum { TCG_OP_ADD_I64, TCG_OP_SUB_I64 } TCGOpcode;
+typedef enum {
+    TCG_OP_ADD_I64,
+    TCG_OP_SUB_I64
+} TCGOpcode;
 
 typedef struct {
     TCGOpcode op;
