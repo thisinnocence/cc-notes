@@ -11,3 +11,7 @@ IndentWidth: 4
 
 # 枚举不要合并一行
 AllowShortEnumsOnASingleLine: false
+
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html#binpackarguments
+# 这个会影响多行数组初始化，true的话会合并一行， 并不会影响函数参数换行
+BinPackArguments: false
