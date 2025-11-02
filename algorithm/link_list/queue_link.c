@@ -60,7 +60,8 @@ void pop(struct queue *q)
     q->num--;
 }
 
-void show(struct queue *q) {
+void show(struct queue *q)
+{
     struct data *head = q->head;
     while (head) {
         printf("%d ", head->val);
@@ -69,7 +70,8 @@ void show(struct queue *q) {
     printf("\n");
 }
 
-int main() {
+int main()
+{
     struct queue q;
     init(&q);
     int val[] = {1, 2, 3};

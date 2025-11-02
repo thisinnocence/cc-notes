@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct vector {
     size_t item_size;
@@ -24,8 +24,8 @@ void ve_push_back(struct vector *ve, const void *item)
         free(ve->head);
         ve->head = new_array;
     }
-    void *last = (char *) ve->head + ve->item_num * ve->item_size;
-    memcpy(last , item, ve->item_size);
+    void *last = (char *)ve->head + ve->item_num * ve->item_size;
+    memcpy(last, item, ve->item_size);
     ve->item_num++;
 }
 
@@ -36,8 +36,8 @@ void ve_erase(struct vector *ve, void *item)
         return;
     }
 
-    char *last = (char *) ve->head + ve->item_size * (ve->item_num - 1);
-    if (last < (char*)item) {
+    char *last = (char *)ve->head + ve->item_size * (ve->item_num - 1);
+    if (last < (char *)item) {
         printf("erase item out of range\n");
         return;
     }
@@ -47,20 +47,20 @@ void ve_erase(struct vector *ve, void *item)
     }
 
     ve->item_num--;
-    if ((char*)item < last ) {
-        memmove(item, (char *) item + ve->item_size, last - (char *) item);
+    if ((char *)item < last) {
+        memmove(item, (char *)item + ve->item_size, last - (char *)item);
     }
 }
 
 // return true if item1 equals item2
-typedef bool (ve_comp_func)(const char *item1, const char *item2);
+typedef bool(ve_comp_func)(const char *item1, const char *item2);
 
 void *ve_find(struct vector *ve, const void *item, ve_comp_func comp)
 {
     unsigned int i;
     for (i = 0; i < ve->item_num; i++) {
-        char *cur = (char*)ve->head + i * ve->item_size;
-        if (comp((char*)item, cur)) {
+        char *cur = (char *)ve->head + i * ve->item_size;
+        if (comp((char *)item, cur)) {
             return cur;
         }
     }
@@ -89,13 +89,13 @@ void ve_clear(struct vector *ve)
 // an int vector
 bool comp(const char *item1, const char *item2)
 {
-    return *(int*)item1 == *(int*)item2;
+    return *(int *)item1 == *(int *)item2;
 }
 
 void show_re(struct vector *ve)
 {
     unsigned int i;
-    int *data = (int *) ve->head;
+    int *data = (int *)ve->head;
     for (i = 0; i < ve->item_num; i++) {
         printf("%d ", data[i]);
     }

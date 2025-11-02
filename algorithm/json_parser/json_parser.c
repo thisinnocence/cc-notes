@@ -1,33 +1,33 @@
 /**
  * @brief 递归下降的JSON解析器实现
- * 
+ *
  * @details
  * 核心实现原理：
  * 1. 递归下降解析(Recursive Descent Parsing)
  *    - 每种JSON语法结构都有对应的解析函数
  *    - 根据当前字符判断解析方向
  *    - 通过递归处理嵌套结构
- * 
+ *
  * 2. 主要数据结构：
  *    - json_value_t: 使用tagged union表示不同类型的JSON值
  *    - json_obj_t:   使用链表实现的对象结构
  *    - json_array_t: 使用链表实现的数组结构
- * 
+ *
  * 3. 解析过程：
  *    - 词法分析：跳过空白字符，识别基本token
  *    - 语法分析：递归构建对象/数组的树形结构
  *    - 错误处理：发现语法错误时及时返回
- * 
+ *
  * @note
  * - 支持的数据类型：object, array, string, number, true, false, null
  * - number仅支持整数(long类型)
  * - 不支持浮点数和Unicode转义序列
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #define X64_LONG_MAX 9223372036854775807L
 
@@ -48,54 +48,54 @@ typedef struct json_array_s json_array_t;
 struct json_value_s {
     json_type_t type;
     union {
-        json_obj_t* obj;
-        json_array_t* array;
+        json_obj_t *obj;
+        json_array_t *array;
         long num;
-        char* str;
+        char *str;
     } val;
 };
 
 struct json_obj_s {
-    char* key;
+    char *key;
     json_value_t value;
-    json_obj_t* next;
+    json_obj_t *next;
 };
 
 struct json_array_s {
     json_value_t value;
-    json_array_t* next;
+    json_array_t *next;
 };
 
 typedef struct json_ctx_s {
-    const char* cur;
+    const char *cur;
 } json_ctx_t;
 
-int parse_obj(json_ctx_t* ctx, json_value_t* v);
+int parse_obj(json_ctx_t *ctx, json_value_t *v);
 
-int parse_value(json_ctx_t* ctx, json_value_t* v);
+int parse_value(json_ctx_t *ctx, json_value_t *v);
 
 int is_whitespace(char c)
 {
     return c == ' ' || c == '\r' || c == '\n' || c == '\t';
 }
 
-void skip_whitespace(json_ctx_t* ctx)
+void skip_whitespace(json_ctx_t *ctx)
 {
     while (is_whitespace(*ctx->cur)) {
         ctx->cur++;
     }
 }
 
-int parse_string(json_ctx_t* ctx, char** out)
+int parse_string(json_ctx_t *ctx, char **out)
 {
     ctx->cur++;
-    const char* begin = ctx->cur;
+    const char *begin = ctx->cur;
     size_t num = 0;
     while (*ctx->cur != '"') {
         ctx->cur++;
         num++;
     }
-    char* tmp = (char*)malloc(num + 1);
+    char *tmp = (char *)malloc(num + 1);
     if (tmp == NULL)
         return -1;
     strncpy(tmp, begin, num);
@@ -106,7 +106,7 @@ int parse_string(json_ctx_t* ctx, char** out)
 }
 
 // x64 long
-int parse_number(json_ctx_t* ctx, json_value_t* v)
+int parse_number(json_ctx_t *ctx, json_value_t *v)
 {
     long n = 0;
     // https://tools.ietf.org/html/rfc7159#page-6
@@ -132,7 +132,7 @@ int parse_number(json_ctx_t* ctx, json_value_t* v)
     return 0;
 }
 
-int parse_array(json_ctx_t* ctx, json_value_t* v)
+int parse_array(json_ctx_t *ctx, json_value_t *v)
 {
     if (*ctx->cur != '[')
         return -1;
@@ -144,7 +144,7 @@ int parse_array(json_ctx_t* ctx, json_value_t* v)
 
     v->type = JSON_ARRAY;
     while (1) {
-        json_array_t* a = malloc(sizeof(json_array_t));
+        json_array_t *a = malloc(sizeof(json_array_t));
         if (a == NULL)
             return -1;
         a->next = v->val.array;
@@ -168,7 +168,7 @@ int parse_array(json_ctx_t* ctx, json_value_t* v)
     }
 }
 
-int parse_obj(json_ctx_t* ctx, json_value_t* v)
+int parse_obj(json_ctx_t *ctx, json_value_t *v)
 {
     if (*ctx->cur != '{')
         return -1;
@@ -180,7 +180,7 @@ int parse_obj(json_ctx_t* ctx, json_value_t* v)
 
     v->type = JSON_OBJ;
     while (1) {
-        json_obj_t* m = malloc(sizeof(json_obj_t));
+        json_obj_t *m = malloc(sizeof(json_obj_t));
         if (m == NULL)
             return -1;
         m->next = v->val.obj;
@@ -217,7 +217,8 @@ int parse_obj(json_ctx_t* ctx, json_value_t* v)
     }
 }
 
-int parse_string_word(json_ctx_t* ctx, const char* word, json_value_t* v, json_type_t type)
+int parse_string_word(json_ctx_t *ctx, const char *word, json_value_t *v,
+                      json_type_t type)
 {
     while (*word) {
         if (*ctx->cur != *word)
@@ -229,7 +230,7 @@ int parse_string_word(json_ctx_t* ctx, const char* word, json_value_t* v, json_t
     return 0;
 }
 
-int parse_value(json_ctx_t* ctx, json_value_t* v)
+int parse_value(json_ctx_t *ctx, json_value_t *v)
 {
     switch (*ctx->cur) {
     case '"':
@@ -257,14 +258,14 @@ int parse_value(json_ctx_t* ctx, json_value_t* v)
     }
 }
 
-json_value_t* parse(const char* json)
+json_value_t *parse(const char *json)
 {
     json_ctx_t ctx;
     ctx.cur = json;
     skip_whitespace(&ctx);
-    if (*ctx.cur != '{')  // first must an object
+    if (*ctx.cur != '{') // first must an object
         return NULL;
-    json_value_t* v = malloc(sizeof(json_value_t));
+    json_value_t *v = malloc(sizeof(json_value_t));
     if (v == NULL)
         return NULL;
     int ret = parse_value(&ctx, v);
@@ -275,7 +276,7 @@ json_value_t* parse(const char* json)
     return v;
 }
 
-void show(json_value_t* value)
+void show(json_value_t *value)
 {
     switch (value->type) {
     case JSON_STRING:
@@ -286,7 +287,7 @@ void show(json_value_t* value)
         break;
     case JSON_OBJ:
         printf("[obj]-----start\n");
-        json_obj_t* head = value->val.obj;
+        json_obj_t *head = value->val.obj;
         while (head) {
             printf("[key]%s:\t", head->key);
             printf("[value]");
@@ -297,7 +298,7 @@ void show(json_value_t* value)
         break;
     case JSON_ARRAY:
         printf("[array]-----start\n");
-        json_array_t* arr = value->val.array;
+        json_array_t *arr = value->val.array;
         while (arr) {
             printf("[value]");
             show(&arr->value);
@@ -321,12 +322,12 @@ void show(json_value_t* value)
 
 int main()
 {
-    char* json = "{\"hi\":[1,\"hi\",{\"hello\":22}],\n"
+    char *json = "{\"hi\":[1,\"hi\",{\"hello\":22}],\n"
                  "\"isNull  \":null,\n"
                  "\"isTrue\":  true,\n"
                  "\"hello2\":-2,\n"
                  "\"arr2\":[\"hi\",3]}";
-    json_value_t* value = parse(json);
+    json_value_t *value = parse(json);
     if (value == NULL) {
         printf("parse error!\n");
         return -1;
