@@ -15,4 +15,4 @@ target_include_directories(math_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Add test executable
 add_executable(tests tests/test.cpp)
-target_link_libraries(tests math_lib gtest)
+target_link_libraries(tests math_lib gtest gmock)

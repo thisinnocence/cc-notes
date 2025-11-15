@@ -7,3 +7,9 @@ AccessModifierOffset: -4
 
 # 只有空函数才格式化为一行
 AllowShortFunctionsOnASingleLine: Empty
+
+# 枚举不要合并一行
+AllowShortEnumsOnASingleLine: false
+
+# 不要压缩自己行换的参数
+BinPackParameters: false
