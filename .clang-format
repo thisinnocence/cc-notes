@@ -4,3 +4,6 @@ BasedOnStyle:  Google
 ColumnLimit: 100
 IndentWidth: 4
 AccessModifierOffset: -4
+
+# 只有空函数才格式化为一行
+AllowShortFunctionsOnASingleLine: Empty
