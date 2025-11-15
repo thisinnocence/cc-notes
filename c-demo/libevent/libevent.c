@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <event2/event.h>
-#include "log.h"
+#include "util/log.h"
 
 struct timeval timeout = {1, 0}; // 1 seconds timeout
 

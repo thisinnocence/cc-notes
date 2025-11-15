@@ -2,7 +2,7 @@
 TARGETS = timer.out
 
 # Include directories
-INC_DIRS = ../util
+INC_DIRS = ../../common
 INC_FLAGS = $(addprefix -I, $(INC_DIRS))
 
 # compile lags： -MMD -MP is used for generate .d file

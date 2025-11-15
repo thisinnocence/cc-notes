@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -g -I../../util
+CFLAGS = -Wall -Wextra -g -I../../common
 LDFLAGS = -levent
 
 TARGETS = event.out
