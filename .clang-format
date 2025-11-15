@@ -2,12 +2,5 @@ Language:        Cpp
 BasedOnStyle:  Google
 
 ColumnLimit: 100
-
-# 缩进4空格， public/private等缩进2个空格
-# IndentWidth: 4 
-# AccessModifierOffset: -2
-
-# 函数名后的大括号换行
-# BreakBeforeBraces: Custom
-# BraceWrapping:
-#   AfterFunction: true
+IndentWidth: 4
+AccessModifierOffset: -4

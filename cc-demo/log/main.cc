@@ -1,7 +1,6 @@
 #include "xlog.h"
 
-int main()
-{
+int main() {
     XLOG_SET_LEVEL(xlog::LogLevel::Error);
     XLOG_ENABLE_TIMESTAMP(true);
     XLOG_INFO("Hello, %s!", "world");
@@ -10,4 +9,3 @@ int main()
     XLOG_ERROR("Hello, %s!!", "world");
     return 0;
 }
-
