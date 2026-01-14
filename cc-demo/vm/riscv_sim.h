@@ -1,5 +1,4 @@
-#ifndef CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
-#define CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -40,4 +39,3 @@ class RiscvSim {
   uint64_t pc_;
 };
 
-#endif  // CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
