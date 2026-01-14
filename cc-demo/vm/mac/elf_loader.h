@@ -1,5 +1,5 @@
-#ifndef ELF_LOADER_H
-#define ELF_LOADER_H
+#ifndef CC_NOTES_CC_DEMO_VM_MAC_ELF_LOADER_H_
+#define CC_NOTES_CC_DEMO_VM_MAC_ELF_LOADER_H_
 
 #include <cstdint>
 #include <string>
@@ -10,6 +10,7 @@ struct ElfImage {
   uint64_t entry;
 };
 
-ElfImage LoadElf(const std::string& path, uint64_t base, std::vector<uint8_t>& mem);
+ElfImage LoadElf(const std::string& path, uint64_t base,
+                 std::vector<uint8_t>& mem);
 
-#endif
+#endif  // CC_NOTES_CC_DEMO_VM_MAC_ELF_LOADER_H_

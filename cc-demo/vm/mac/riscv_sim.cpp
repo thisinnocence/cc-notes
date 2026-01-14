@@ -1,13 +1,12 @@
 #include "riscv_sim.h"
 
-#include <cinttypes>
 #include <cstdint>
 #include <cstdlib>
-#include <cstring>
-#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "elf_loader.h"
 
 namespace {
 
@@ -150,7 +149,8 @@ uint64_t RiscvSim::AddrToOff(uint64_t addr) {
 void RiscvSim::Step(uint32_t inst) {
   // 把 0x00000000 作为“干净停机”的约定
   if (inst == 0) {
-    std::cout << "halt: illegal 0x0 at pc=0x" << std::hex << pc_ << std::dec << "\n";
+    std::cout << "halt: illegal 0x0 at pc=0x" << std::hex << pc_ << std::dec
+              << "\n";
     std::exit(0);
   }
   const uint32_t opcode = inst & 0x7f;
@@ -161,18 +161,17 @@ void RiscvSim::Step(uint32_t inst) {
   const uint32_t funct7 = (inst >> 25) & 0x7f;
 
   const int64_t imm_i = SignExtend(inst >> 20, 12);
-  const int64_t imm_s = SignExtend(((inst >> 25) << 5) | ((inst >> 7) & 0x1f), 12);
-  const int64_t imm_b = SignExtend(((inst >> 31) << 12) |
-                                      (((inst >> 7) & 0x1) << 11) |
-                                      (((inst >> 25) & 0x3f) << 5) |
-                                      (((inst >> 8) & 0xf) << 1),
-                                    13);
+  const int64_t imm_s =
+      SignExtend(((inst >> 25) << 5) | ((inst >> 7) & 0x1f), 12);
+  const int64_t imm_b =
+      SignExtend(((inst >> 31) << 12) | (((inst >> 7) & 0x1) << 11) |
+                     (((inst >> 25) & 0x3f) << 5) | (((inst >> 8) & 0xf) << 1),
+                 13);
   const int64_t imm_u = static_cast<int64_t>(inst & 0xfffff000);
-  const int64_t imm_j = SignExtend(((inst >> 31) << 20) |
-                                      (((inst >> 12) & 0xff) << 12) |
-                                      (((inst >> 20) & 0x1) << 11) |
-                                      (((inst >> 21) & 0x3ff) << 1),
-                                    21);
+  const int64_t imm_j = SignExtend(
+      ((inst >> 31) << 20) | (((inst >> 12) & 0xff) << 12) |
+          (((inst >> 20) & 0x1) << 11) | (((inst >> 21) & 0x3ff) << 1),
+      21);
 
   uint64_t next_pc = pc_ + 4;
 
@@ -204,12 +203,14 @@ void RiscvSim::Step(uint32_t inst) {
           }
           break;
         case 0x4:  // BLT
-          if (static_cast<int64_t>(regs_[rs1]) < static_cast<int64_t>(regs_[rs2])) {
+          if (static_cast<int64_t>(regs_[rs1]) <
+              static_cast<int64_t>(regs_[rs2])) {
             next_pc = pc_ + static_cast<uint64_t>(imm_b);
           }
           break;
         case 0x5:  // BGE
-          if (static_cast<int64_t>(regs_[rs1]) >= static_cast<int64_t>(regs_[rs2])) {
+          if (static_cast<int64_t>(regs_[rs1]) >=
+              static_cast<int64_t>(regs_[rs2])) {
             next_pc = pc_ + static_cast<uint64_t>(imm_b);
           }
           break;
@@ -321,13 +322,14 @@ void RiscvSim::Step(uint32_t inst) {
       Illegal(inst);
   }
 
+  // RISC-V 规定 x0 恒为 0，写入被忽略。
   regs_[0] = 0;
   pc_ = next_pc;
 }
 
 [[noreturn]] void RiscvSim::Illegal(uint32_t inst) {
-  std::cerr << "illegal instruction 0x" << std::hex << inst << " at pc=0x" << pc_
-            << std::dec << "\n";
+  std::cerr << "illegal instruction 0x" << std::hex << inst << " at pc=0x"
+            << pc_ << std::dec << "\n";
   std::exit(1);
 }
 

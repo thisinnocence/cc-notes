@@ -37,7 +37,8 @@ std::vector<uint8_t> ReadFile(const std::string& path) {
 
 }  // namespace
 
-ElfImage LoadElf(const std::string& path, uint64_t base, std::vector<uint8_t>& mem) {
+ElfImage LoadElf(const std::string& path, uint64_t base,
+                 std::vector<uint8_t>& mem) {
   // 仅解析 ELF64 little-endian 的 PT_LOAD 段
   const std::vector<uint8_t> file = ReadFile(path);
   if (file.size() < sizeof(Elf64_Ehdr)) {
@@ -65,14 +66,16 @@ ElfImage LoadElf(const std::string& path, uint64_t base, std::vector<uint8_t>& m
   if (ehdr.e_phoff == 0 || ehdr.e_phentsize != sizeof(Elf64_Phdr)) {
     Die("invalid program header table");
   }
-  const uint64_t ph_end = ehdr.e_phoff + static_cast<uint64_t>(ehdr.e_phnum) * sizeof(Elf64_Phdr);
+  const uint64_t ph_end =
+      ehdr.e_phoff + static_cast<uint64_t>(ehdr.e_phnum) * sizeof(Elf64_Phdr);
   if (ph_end > file.size()) {
     Die("program headers out of range");
   }
 
   for (uint16_t i = 0; i < ehdr.e_phnum; ++i) {
     Elf64_Phdr ph{};
-    std::memcpy(&ph, file.data() + ehdr.e_phoff + i * sizeof(Elf64_Phdr), sizeof(ph));
+    std::memcpy(&ph, file.data() + ehdr.e_phoff + i * sizeof(Elf64_Phdr),
+                sizeof(ph));
     if (ph.p_type != PT_LOAD) {
       continue;
     }
@@ -92,7 +95,8 @@ ElfImage LoadElf(const std::string& path, uint64_t base, std::vector<uint8_t>& m
     }
     std::memcpy(mem.data() + seg_start, file.data() + ph.p_offset, ph.p_filesz);
     if (ph.p_memsz > ph.p_filesz) {
-      std::memset(mem.data() + seg_start + ph.p_filesz, 0, ph.p_memsz - ph.p_filesz);
+      std::memset(mem.data() + seg_start + ph.p_filesz, 0,
+                  ph.p_memsz - ph.p_filesz);
     }
   }
 

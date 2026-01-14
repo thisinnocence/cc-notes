@@ -1,5 +1,5 @@
-#ifndef RISCV_SIM_H
-#define RISCV_SIM_H
+#ifndef CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
+#define CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
 
 #include <cstdint>
 #include <string>
@@ -19,7 +19,6 @@ struct Options {
 };
 
 Options ParseArgs(int argc, char** argv);
-#include "elf_loader.h"
 
 class RiscvSim {
  public:
@@ -41,4 +40,4 @@ class RiscvSim {
   uint64_t pc_;
 };
 
-#endif
+#endif  // CC_NOTES_CC_DEMO_VM_MAC_RISCV_SIM_H_
